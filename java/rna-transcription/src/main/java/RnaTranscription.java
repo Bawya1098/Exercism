@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
-class RnaTranscription {
+public class RNA {
+
     String transcribe(String dnaStrand) {
         String result;
         if (dnaStrand.length() == 1) {
@@ -12,10 +13,13 @@ class RnaTranscription {
         return result;
     }
 
-    private String getString(String dnaStrand) {
+    String getString(String dnaStrand) {
         char[] string = dnaStrand.toCharArray();
         List<String> checkArray = new ArrayList<>(string.length);
         for (char c : string) {
+            if (Character.isDigit(c) || Character.isWhitespace(c)) {
+                throw new IllegalArgumentException("Invalid String Exception");
+            }
             checkArray.add(checkDNA(c));
         }
         StringBuilder sb = new StringBuilder();
@@ -25,20 +29,23 @@ class RnaTranscription {
         return sb.toString();
     }
 
-    private String checkDNA(char dnaStrand) {
-        switch (dnaStrand) {
-            case 'A':
-                return "U";
-            case 'G':
-                return "C";
-            case 'C':
-                return "G";
-            case 'T':
-            case 'U':
-                return "A";
-            default:
-                return null;
+    String checkDNA(char dnaStrand) {
+        try {
+            switch (dnaStrand) {
+                case 'A':
+                    return "U";
+                case 'G':
+                    return "C";
+                case 'C':
+                    return "G";
+                case 'T':
+                case 'U':
+                    return "A";
+                default:
+                    throw new IllegalArgumentException();
+            }
+        } catch (IllegalArgumentException S) {
+            return "Invalid String";
         }
     }
 }
-
